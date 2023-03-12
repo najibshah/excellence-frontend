@@ -2,21 +2,13 @@ import AppBar from "@mui/material/AppBar";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#1976d2",
-    },
-  },
-});
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
 export const TopAppBar = () => {
   return (
-    <ThemeProvider theme={darkTheme}>
+    <Box>
       <CssBaseline />
       <AppBar position="static" color="primary">
         <Toolbar disableGutters>
@@ -33,6 +25,6 @@ export const TopAppBar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
-    </ThemeProvider>
+    </Box>
   );
 };
