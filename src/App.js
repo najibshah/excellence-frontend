@@ -1,5 +1,11 @@
+import { TopAppBar } from "./layout";
+
 function App() {
-  return <div>Excellence DC</div>;
+  return (
+    <div className="App">
+      <TopAppBar />
+    </div>
+  );
 }
 
 export default App;
