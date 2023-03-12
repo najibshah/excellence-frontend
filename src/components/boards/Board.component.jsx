@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-export function BoardPanel(props) {
+export function Board(props) {
   const { children, value, index, ...other } = props;
 
   return (

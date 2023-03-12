@@ -1,67 +1,74 @@
 import { Button, Typography } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { BoardPanel } from "../components/boards";
+import { Board, NewBoard } from "../components/boards";
 import { a11yProps } from "../functions";
+import axios from "axios";
+
+const apiURI = process.env.REACT_APP_API_URI;
 
 export function Boards() {
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("black");
-  const [tabs, setTabs] = useState([
-    { label: "Item One", id: "black" },
-    { label: "Item Two", id: "white" },
-    { label: "Item Three", id: "blue" },
-  ]);
-  const [tabPanels, setTabPanels] = useState([
-    {
-      id: "black",
-      children: (
-        <div>
-          <div>Abc</div> <div>XXyz</div>{" "}
-        </div>
-      ),
-    },
-    {
-      id: "white",
-      children: (
-        <div>
-          <div>xyz</div> <div>aaa</div>{" "}
-        </div>
-      ),
-    },
-    {
-      id: "blue",
-      children: (
-        <div>
-          <div>jsh</div> <div>2hjsj</div>{" "}
-        </div>
-      ),
-    },
-  ]);
+  const [refresh, setRefresh] = useState(false);
+
+  const [errors, setErrors] = useState();
+  errors && console.error(errors);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${apiURI}/edc/boards/all`)
+      .then((response) => {
+        setData(response.data);
+      })
+
+      .catch((response) => {
+        console.log("error in axios form call react");
+        setErrors({});
+        setErrors(response.response.data);
+      });
+    // eslint-disable-next-line no-console
+  }, [refresh]);
+
+  // const [tabPanels, setTabPanels] = useState([
+  //   {
+  //     id: "black",
+  //     children: (
+  //       <div>
+  //         <div>Abc</div> <div>XXyz</div>{" "}
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     id: "white",
+  //     children: (
+  //       <div>
+  //         <div>xyz</div> <div>aaa</div>{" "}
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     id: "blue",
+  //     children: (
+  //       <div>
+  //         <div>jsh</div> <div>2hjsj</div>{" "}
+  //       </div>
+  //     ),
+  //   },
+  // ]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleOpen = () => setOpen(true);
 
-  const handleClick = () => {
-    setTabs([...tabs, { label: "Item four", id: "bell" }]);
-    setTabPanels([
-      ...tabPanels,
-      {
-        id: "bell",
-        children: (
-          <div>
-            <div>uuuu</div> <div>22222</div>{" "}
-          </div>
-        ),
-      },
-    ]);
-  };
   const ButtonInTabs = ({ children }) => {
-    return <Button onClick={handleClick} children={children} />;
+    return <Button onClick={handleOpen} children={children} />;
   };
 
   return (
@@ -75,22 +82,35 @@ export function Boards() {
           scrollButtons
           allowScrollButtonsMobile
         >
-          {tabs.map((tab, index) => {
-            return <Tab label={tab.label} {...a11yProps(tab.id)} key={index} />;
-          })}
+          {data &&
+            data.map((board, index) => {
+              return (
+                <Tab
+                  label={board.boardLabel}
+                  {...a11yProps(board.id)}
+                  key={index}
+                />
+              );
+            })}
           <ButtonInTabs>
             <AddBoxRoundedIcon sx={{ ml: 4 }} />
             <Typography sx={{ ml: 1 }}> New Tab </Typography>
           </ButtonInTabs>
         </Tabs>
       </Box>
-      {tabPanels.map((tabPanel, index) => {
+      {/* {tabPanels.map((tabPanel, index) => {
         return (
           <BoardPanel value={value} index={tabPanel.id} key={index}>
             {tabPanel.children}
           </BoardPanel>
         );
-      })}
+      })} */}
+      <NewBoard
+        open={open}
+        setOpen={setOpen}
+        setRefresh={setRefresh}
+        refresh={refresh}
+      />
     </Box>
   );
 }
