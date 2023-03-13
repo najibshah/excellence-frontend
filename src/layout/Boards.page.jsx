@@ -18,13 +18,13 @@ export function Boards() {
 
   const [errors, setErrors] = useState();
   errors && console.error(errors);
-  const [data, setData] = useState();
+  const [board, setBoard] = useState();
 
   useEffect(() => {
     axios
       .get(`${apiURI}/edc/boards/all`)
       .then((response) => {
-        setData(response.data);
+        setBoard(response.data);
       })
 
       .catch((response) => {
@@ -82,12 +82,12 @@ export function Boards() {
           scrollButtons
           allowScrollButtonsMobile
         >
-          {data &&
-            data.map((board, index) => {
+          {board &&
+            board.map((board, index) => {
               return (
                 <Tab
                   label={board.boardLabel}
-                  {...a11yProps(board.id)}
+                  {...a11yProps(board.boardID)}
                   key={index}
                 />
               );
@@ -98,6 +98,11 @@ export function Boards() {
           </ButtonInTabs>
         </Tabs>
       </Box>
+      {board &&
+        board.map((board, index) => {
+          return <Board key={index} value={value} index={board.boardID} />;
+        })}
+      {/* <Board /> */}
       {/* {tabPanels.map((tabPanel, index) => {
         return (
           <BoardPanel value={value} index={tabPanel.id} key={index}>
