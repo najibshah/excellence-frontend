@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import Grid from "@mui/material/Grid";
 
 const apiURI = process.env.REACT_APP_API_URI;
 
@@ -23,22 +24,28 @@ const style = {
   borderRadius: "15px",
 };
 
-export function NewBoard({ open, setOpen, refresh, setRefresh }) {
+export function EditBoardModal({
+  open,
+  setOpen,
+  refresh,
+  setRefresh,
+  boardID,
+}) {
   const handleClose = () => setOpen(false);
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
+    console.log(boardID);
     const newBoard = {
       boardLabel: data.get("boardLabel"),
+      boardID: boardID,
     };
 
-    console.log(data);
     axios
-      .post(`${apiURI}/edc/boards/addBoard`, newBoard)
+      .post(`${apiURI}/edc/boards/editBoard`, newBoard)
       .then((response) => {
         console.log(response);
         handleClose();
@@ -47,11 +54,11 @@ export function NewBoard({ open, setOpen, refresh, setRefresh }) {
       .catch((response) => {
         console.log("error in axios login call react");
         setErrors({});
-        setErrors(response.response.data);
+        setErrors(response.data);
       });
     // eslint-disable-next-line no-console
   };
-  console.log(errors);
+  errors && console.log({ errors });
   return (
     <div>
       <Modal
@@ -62,10 +69,10 @@ export function NewBoard({ open, setOpen, refresh, setRefresh }) {
       >
         <Box sx={style} component="form" onSubmit={handleSubmit} noValidate>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            New Board
+            Edit Board
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, mb: 6 }}>
-            Add a new Kanban Board to the project
+            Edit the name of this board
           </Typography>
           <TextField
             variant="standard"
@@ -77,12 +84,21 @@ export function NewBoard({ open, setOpen, refresh, setRefresh }) {
             name="boardLabel"
             autoComplete="boardLabel"
             autoFocus
-            error={errors.boardLabel && true}
-            helperText={errors.boardLabel !== "" ? errors.boardLabel : " "}
-          />
-          <Button type="submit" variant="contained" sx={{ mt: 4 }}>
-            Save
-          </Button>
+            error={errors && errors.boardLabel && true}
+            helperText={
+              errors && errors.boardLabel !== "" ? errors.boardLabel : " "
+            }
+          />{" "}
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Button type="submit" variant="contained" size="large">
+              Save
+            </Button>
+          </Grid>
         </Box>
       </Modal>
     </div>

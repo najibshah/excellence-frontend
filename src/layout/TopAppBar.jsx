@@ -14,7 +14,7 @@ export const TopAppBar = () => {
         <Toolbar disableGutters>
           <Grid
             container
-            items
+            item
             direction="row"
             justifyContent="center"
             alignItems="center"
