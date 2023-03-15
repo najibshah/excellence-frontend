@@ -1,4 +1,5 @@
-import { Boards, TopAppBar } from "./layout";
+import { TopAppBar } from "./layout";
+import { Boards } from "./pages";
 
 function App() {
   return (
