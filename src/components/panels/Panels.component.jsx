@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Divider from "@mui/material/Divider";
 import { onDragEnd } from "../../functions/onDragEnd.function";
 import { AddButton } from "./AddButton.component";
+import { NewPanelModal } from ".";
 
-export function Panels({ columns, setColumns }) {
+export function Panels({ panels, boardID, refresh, setRefresh }) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const [columns, setColumns] = useState(panels);
+
   return (
     <div
       style={{
@@ -98,7 +104,22 @@ export function Panels({ columns, setColumns }) {
         })}
       </DragDropContext>
 
-      <AddButton title="Add Column" />
+      <h5
+        style={{
+          marginLeft: "60px",
+          cursor: "pointer",
+        }}
+        onClick={handleOpen}
+      >
+        Add Panel
+      </h5>
+      <NewPanelModal
+        open={open}
+        setOpen={setOpen}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        boardID={boardID}
+      />
     </div>
   );
 }
