@@ -9,7 +9,7 @@ import {
 } from "../components/";
 import { a11yProps } from "../functions";
 import axios from "axios";
-
+import uuid from "uuid";
 const apiURI = process.env.REACT_APP_API_URI;
 
 export function Boards() {
@@ -21,11 +21,26 @@ export function Boards() {
   const [board, setBoard] = useState();
 
   useEffect(() => {
+    console.log("called");
     axios
       .get(`${apiURI}/edc/boards/all`)
       .then((response) => {
         setBoard(response.data);
         setValue(response.data[0].boardID);
+      })
+      .catch((response) => {
+        console.log("error in axios form call react");
+        setErrors({});
+        setErrors(response.data);
+      });
+    // eslint-disable-next-line no-console
+  }, []);
+  useEffect(() => {
+    console.log("called");
+    axios
+      .get(`${apiURI}/edc/boards/all`)
+      .then((response) => {
+        setBoard(response.data);
       })
       .catch((response) => {
         console.log("error in axios form call react");
@@ -41,7 +56,7 @@ export function Boards() {
   const handleOpen = () => setOpenNewModal(true);
 
   return (
-    <Box sx={{ width: "100%", marginTop: "30px" }}>
+    <Box key={+refresh} sx={{ width: "100%", marginTop: "30px" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <StyledTabs
           value={value}
@@ -64,9 +79,11 @@ export function Boards() {
         </StyledTabs>
       </Box>
       {board?.map((board, index) => {
+        console.log(board);
         return (
           <Board
-            key={index}
+            key={Date.now() + Math.floor(Math.random() * 9999)}
+            // key={index}
             value={value}
             index={board.boardID}
             panels={board.panels}
