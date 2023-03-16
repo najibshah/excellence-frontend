@@ -10,6 +10,8 @@ todo - setup env vars
 
 todo - restructure schema to have all board panels and tasks data in single document for performance
 
+lack of state and context, had to prioritize tasks, finish app first then remove prop-drilling.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
