@@ -2,6 +2,7 @@ import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import { Droppable } from "react-beautiful-dnd";
 import { NewItemModal, TaskCard, EditPanelModal } from ".";
+import EditIcon from "@mui/icons-material/Edit";
 
 export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
   const [openNewItem, setOpenNewItem] = useState(false);
@@ -38,7 +39,18 @@ export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
                   alignItems: "center",
                 }}
               >
-                <h2 onClick={handleOpenEditPanel}>{column.name}</h2>
+                <h2>
+                  {column.name}
+                  <EditIcon
+                    onClick={handleOpenEditPanel}
+                    sx={{
+                      fontSize: "16px",
+                      cursor: "pointer",
+                      ml: "5px",
+                      color: "#219ebc ",
+                    }}
+                  />
+                </h2>
 
                 <Divider
                   color="#000000"

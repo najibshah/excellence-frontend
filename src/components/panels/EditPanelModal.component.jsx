@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import ConfirmDeletePanelDialog from "./ConfirmDeletePanelDialog.component";
 
 const apiURI = process.env.REACT_APP_API_URI;
 
@@ -33,6 +36,8 @@ export function EditPanelModal({
 }) {
   const handleClose = () => setOpen(false);
   const [errors, setErrors] = useState();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -86,11 +91,34 @@ export function EditPanelModal({
             error={errors && errors.name && true}
             helperText={errors && errors.name !== "" ? errors.name : " "}
           />
-          <Button type="submit" variant="contained" sx={{ mt: 4 }}>
-            Save
-          </Button>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Button type="submit" variant="contained">
+              Save
+            </Button>
+            <h5
+              style={{ marginLeft: "50px", cursor: "pointer", color: "maroon" }}
+              onClick={handleOpenDeleteDialog}
+            >
+              Delete Panel
+            </h5>
+          </Grid>
         </Box>
       </Modal>
+
+      <ConfirmDeletePanelDialog
+        open={openDeleteDialog}
+        setOpen={setOpenDeleteDialog}
+        handleCloseModal={handleClose}
+        setRefresh={setRefresh}
+        refresh={refresh}
+        boardID={boardID}
+        panelID={panelID}
+      />
     </div>
   );
 }
