@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import { Droppable } from "react-beautiful-dnd";
-import { NewItemModal, TaskCard } from ".";
+import { NewItemModal, TaskCard, EditPanelModal } from ".";
+import EditIcon from "@mui/icons-material/Edit";
 
 export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [openNewItem, setOpenNewItem] = useState(false);
+  const handleOpenNewItem = () => setOpenNewItem(true);
+  const [openEditPanel, setOpenEditPanel] = useState(false);
+  const handleOpenEditPanel = () => setOpenEditPanel(true);
   return (
     <div
       style={{
@@ -36,7 +39,18 @@ export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
                   alignItems: "center",
                 }}
               >
-                <h2>{column.name}</h2>
+                <h2>
+                  {column.name}
+                  <EditIcon
+                    onClick={handleOpenEditPanel}
+                    sx={{
+                      fontSize: "16px",
+                      cursor: "pointer",
+                      ml: "5px",
+                      color: "#219ebc ",
+                    }}
+                  />
+                </h2>
 
                 <Divider
                   color="#000000"
@@ -60,7 +74,7 @@ export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
                   style={{
                     cursor: "pointer",
                   }}
-                  onClick={handleOpen}
+                  onClick={handleOpenNewItem}
                 >
                   + Add Item
                 </h5>
@@ -69,10 +83,17 @@ export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
           }}
         </Droppable>
       </div>
-
+      <EditPanelModal
+        open={openEditPanel}
+        setOpen={setOpenEditPanel}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        boardID={boardID}
+        panelID={columnId}
+      />
       <NewItemModal
-        open={open}
-        setOpen={setOpen}
+        open={openNewItem}
+        setOpen={setOpenNewItem}
         refresh={refresh}
         setRefresh={setRefresh}
         boardID={boardID}
