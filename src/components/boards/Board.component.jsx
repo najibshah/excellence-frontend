@@ -16,8 +16,6 @@ export function Board({
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  console.log(index);
-  const [columns, setColumns] = useState(panels);
   const handleOpenEditModal = () => setOpenEditModal(true);
   const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
 
@@ -51,7 +49,12 @@ export function Board({
           Delete Board
         </h5>
       </Grid>
-      <Panels columns={columns} setColumns={setColumns} />
+      <Panels
+        panels={panels}
+        boardID={index}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
       <EditBoardModal
         open={openEditModal}
         setOpen={setOpenEditModal}
