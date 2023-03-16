@@ -24,13 +24,16 @@ export function Panels({ panels, boardID, refresh, setRefresh }) {
           return (
             <Panel
               key={columnId}
-              handleOpen={handleOpen}
               columnId={columnId}
               column={column}
+              boardID={boardID}
+              refresh={refresh}
+              setRefresh={setRefresh}
             ></Panel>
           );
         })}
       </DragDropContext>
+
       <h5
         style={{
           marginLeft: "60px",

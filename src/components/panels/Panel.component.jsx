@@ -1,8 +1,11 @@
+import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import { Droppable } from "react-beautiful-dnd";
-import { TaskCard } from ".";
+import { NewItemModal, TaskCard } from ".";
 
-export function Panel({ handleOpen, columnId, column }) {
+export function Panel({ columnId, column, boardID, refresh, setRefresh }) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
   return (
     <div
       style={{
@@ -34,6 +37,7 @@ export function Panel({ handleOpen, columnId, column }) {
                 }}
               >
                 <h2>{column.name}</h2>
+
                 <Divider
                   color="#000000"
                   sx={{
@@ -65,6 +69,15 @@ export function Panel({ handleOpen, columnId, column }) {
           }}
         </Droppable>
       </div>
+
+      <NewItemModal
+        open={open}
+        setOpen={setOpen}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        boardID={boardID}
+        panelID={columnId}
+      />
     </div>
   );
 }
