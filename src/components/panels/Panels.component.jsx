@@ -2,8 +2,9 @@ import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Divider from "@mui/material/Divider";
 import { onDragEnd } from "../../functions/onDragEnd.function";
-import { AddButton } from "./AddButton.component";
 import { NewPanelModal } from ".";
+import Grid from "@mui/material/Grid";
+import { createDate } from "../../functions/createDate.function";
 
 export function Panels({ panels, boardID, refresh, setRefresh }) {
   const [open, setOpen] = useState(false);
@@ -42,11 +43,11 @@ export function Panels({ panels, boardID, refresh, setRefresh }) {
                         style={{
                           background: snapshot.isDraggingOver
                             ? "lightblue"
-                            : "lightgrey",
+                            : "#ECEBF3",
                           padding: 4,
                           width: 250,
                           minHeight: 150,
-                          borderRadius: "15px",
+                          borderRadius: "5px",
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
@@ -76,15 +77,38 @@ export function Panels({ panels, boardID, refresh, setRefresh }) {
                                       padding: 16,
                                       margin: "0 0 8px 0",
                                       minHeight: "50px",
-                                      borderRadius: "10px",
+                                      borderRadius: "5px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#2a2b2a"
-                                        : "#706c61",
-                                      color: "white",
+                                        : "#BFCDE0",
+                                      color: snapshot.isDragging
+                                        ? "white"
+                                        : "black",
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {item.content}
+                                    {item.content} <br />
+                                    <Grid
+                                      container
+                                      direction="column"
+                                      justifyContent="flex-start"
+                                      alignItems="flex-start"
+                                      sx={{ mt: 2 }}
+                                    >
+                                      <span
+                                        style={{
+                                          fontSize: "10px",
+                                          marginBottom: "5px",
+                                        }}
+                                      >
+                                        <b>Date Added:</b> <br />
+                                        {createDate(item.dateAdded)}
+                                      </span>
+                                      <span style={{ fontSize: "10px" }}>
+                                        <b>Date Modified:</b> <br />
+                                        {createDate(item.dateAdded)}
+                                      </span>
+                                    </Grid>
                                   </div>
                                 );
                               }}
@@ -93,7 +117,14 @@ export function Panels({ panels, boardID, refresh, setRefresh }) {
                         })}
                         {provided.placeholder}
 
-                        <AddButton title="Add Item" />
+                        <h5
+                          style={{
+                            cursor: "pointer",
+                          }}
+                          onClick={handleOpen}
+                        >
+                          + Add Item
+                        </h5>
                       </div>
                     );
                   }}
@@ -111,7 +142,7 @@ export function Panels({ panels, boardID, refresh, setRefresh }) {
         }}
         onClick={handleOpen}
       >
-        Add Panel
+        + Add Panel
       </h5>
       <NewPanelModal
         open={open}
