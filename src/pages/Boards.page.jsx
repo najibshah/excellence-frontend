@@ -51,32 +51,30 @@ export function Boards() {
           scrollButtons
           allowScrollButtonsMobile
         >
-          {board &&
-            board.map((board, index) => {
-              return (
-                <StyledTab
-                  label={board.boardLabel}
-                  {...a11yProps(board.boardID)}
-                  key={index}
-                />
-              );
-            })}
+          {board?.map((board, index) => {
+            return (
+              <StyledTab
+                label={board.boardLabel}
+                {...a11yProps(board.boardID)}
+                key={index}
+              />
+            );
+          })}
           <NewBoardButton handleOpen={handleOpen} />
         </StyledTabs>
       </Box>
-      {board &&
-        board.map((board, index) => {
-          return (
-            <Board
-              key={index}
-              value={value}
-              index={board.boardID}
-              panels={board.panels}
-              refresh={refresh}
-              setRefresh={setRefresh}
-            />
-          );
-        })}
+      {board?.map((board, index) => {
+        return (
+          <Board
+            key={index}
+            value={value}
+            index={board.boardID}
+            panels={board.panels}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
+        );
+      })}
 
       <NewBoardModal
         open={openNewModal}
