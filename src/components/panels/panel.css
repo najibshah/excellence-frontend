@@ -1,0 +1,41 @@
+@media only screen and (max-width: 400px) {
+  /* .box {
+    display: flex;
+    height: 100%;
+    padding-top: 30px;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  } */
+}
+@media only screen and (min-width: 401px) {
+  .box {
+    margin-bottom: 30px;
+    height: 100%;
+    overflow-y: auto;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .box {
+    display: flex;
+    height: 100%;
+    padding-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .box {
+    display: flex;
+    height: 100%;
+    padding-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+}
